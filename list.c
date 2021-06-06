@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "list.h"
+#include "list.h"    
 
 typedef struct Node Node;
 
@@ -35,6 +35,11 @@ List * createList() {
      new->head = new->tail = new->current = NULL;
      new->size = 0;
      return new;
+}
+
+Stack* createStack()
+{
+    return createList();
 }
 
 void * firstList(List * list) {
@@ -155,4 +160,19 @@ void cleanList(List * list) {
 int listSize(List *list)
 {
   return list->size;
+}
+
+void pop(Stack* s)
+{
+  popBack(s);
+}
+
+void* top(Stack* s)
+{
+  return lastList(s);
+}
+
+void push(Stack* s, void* data)
+{
+  pushBack(s, data);
 }
