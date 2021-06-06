@@ -5,7 +5,8 @@
 #include "Vector2.h"
 #include "direcciones.h"
 
-FILE* leerArchivo()
+// Funcion que lee lo indicado por el usuario y lo intenta abrir
+FILE* leerArchivo() 
 {
     char* filename = (char*)malloc(sizeof(char) * 30);
 
@@ -19,6 +20,7 @@ FILE* leerArchivo()
     return file;
 }
 
+// Retorna el archivo importado, y comprueba que no sea nulo
 FILE* importarArchivo()
 {
   FILE* newFile = NULL;
@@ -32,6 +34,7 @@ FILE* importarArchivo()
   return newFile;
 }
 
+// Separa el string indicado por espacio
 int* separarPorEspacio(char* linea)
 {
     int* returnValue = (int*)malloc(sizeof(int) * 2);
@@ -43,6 +46,7 @@ int* separarPorEspacio(char* linea)
     return returnValue;
 }
 
+// Inserta posiciones creadas al mapa indicado
 void insertarAMapa(FILE* file, Map* map, int max)
 {
     char linea[1024];

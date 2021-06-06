@@ -88,6 +88,17 @@ void * nextMap(Map * list) {
     return (void *)list->current->data;
 }
 
+void* prevMap(Map* list)
+{
+    assert(list != NULL); // list no puede ser NULL.
+
+    if (list->head == NULL || list->current == NULL || list->current->prev == NULL) return NULL;
+
+    list->current = list->current->prev;
+
+    return (void *)list->current->data;
+}
+
 void _pushFront(Map * list, void * key, void * value) {
     assert(list != NULL); // list no puede ser NULL.
 
@@ -293,6 +304,12 @@ int is_equal_float(void * key1, void * key2) {
 
 int lower_than_float(void * key1, void * key2) {
     if(*(float*)key1 < *(float*)key2) return 1;
+    return 0;
+}
+
+int upper_than_float(void* key1, void* key2)
+{
+    if(*(float*)key1 > *(float*)key2) return 1;
     return 0;
 }
 

@@ -1,180 +1,178 @@
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "list.h"
+#include "list.h"    
 
-typedef struct n{
-    void* data;
-    struct n* next;
-    struct n* prev;
-} node;
+typedef struct Node Node;
 
-struct List{
-    node* first;
-    node* last;
-    node* current;
+struct Node {
+    const void * data;
+    Node * next;
+    Node * prev;
+};
+
+struct List {
+    Node * head;
+    Node * tail;
+    Node * current;
     int size;
 };
 
-int get_size(List* list){
-    return list->size;
+typedef List List;
+
+Node * createNode(const void * data) {
+    Node * new = (Node *)malloc(sizeof(Node));
+    assert(new != NULL);
+    new->data = data;
+    new->prev = NULL;
+    new->next = NULL;
+    return new;
 }
 
-void clean(List* list){
-    while(is_empty(list)==0)
-        pop(list);
+List * createList() {
+     List * new = (List *)malloc(sizeof(List));
+     assert(new != NULL);
+     new->head = new->tail = new->current = NULL;
+     new->size = 0;
+     return new;
 }
 
-List* createList(){
-   List* list=(List*) malloc(sizeof(List));
-   list -> first = NULL;
-   list -> last = NULL;
-   list -> size = 0;
-   return list;
-}
-
-Stack* createStack(){
+Stack* createStack()
+{
     return createList();
 }
 
-node* _createNode(void* data){
-    node* t;
-    t=(node*) malloc (sizeof(node));
-    t -> data = data;
-    t -> next = NULL;
-    t -> prev = NULL;
-    return t;
+void * firstList(List * list) {
+    if (list == NULL || list->head == NULL) return NULL;
+    list->current = list->head;
+    return (void *)list->current->data;
 }
 
-int is_empty(List* list){
-    return (list->first==NULL);
+void * nextList(List * list) {
+    if (list == NULL || list->head == NULL || list->current == NULL || list->current->next == NULL) return NULL;
+    list->current = list->current->next;
+    return (void *)list->current->data;
 }
 
-void popFront(List* list){
-    if(!is_empty(list)){
-        node *a = list->first;
-        list->first=list->first->next;
-        if(list->first!=NULL) list->first->prev=NULL;
-        else list->last=NULL;
-        free(a);
-        list -> size--;
+void * lastList(List * list) {
+    if (list == NULL || list->head == NULL) return NULL;
+    list->current = list->tail;
+    return (void *)list->current->data;
+}
+
+void * prevList(List * list) {
+    if (list == NULL || list->head == NULL || list->current == NULL || list->current->prev == NULL) return NULL;
+    list->current = list->current->prev;
+    return (void *)list->current->data;
+}
+
+void pushFront(List * list, const void * data) {
+    assert(list != NULL);
+    
+    Node * new = createNode(data);
+    
+    if (list->head == NULL) {
+        list->tail = new;
+    } else {
+        new->next = list->head;
+        list->head->prev = new;
     }
+    
+    list->head = new;
+    (list->size)++;
 }
 
-void popBack(List* list){
-    if(!is_empty(list)){
-        node *a = list->last;
-        list->last=list->last->prev;
-        if(list->last!=NULL) list->last->next=NULL;
-        else list->first=NULL;
-        free(a);
-        list -> size-- ;
+void pushBack(List * list, const void * data) {
+    list->current = list->tail;
+    if(list->current==NULL) pushFront(list,data);
+    else pushCurrent(list,data);
+}
+
+void pushCurrent(List * list, const void * data) {
+    assert(list != NULL && list->current !=NULL);
+    Node * new = createNode(data);
+
+    if(list->current->next)
+        new->next = list->current->next;
+    new->prev = list->current;
+
+    if(list->current->next)
+        list->current->next->prev = new;
+    list->current->next = new;
+
+    if(list->current==list->tail)
+        list->tail=new;
+
+    (list->size)++;
+}
+
+void * popFront(List * list) {
+    list->current = list->head;
+    return popCurrent(list);
+}
+
+void * popBack(List * list) {
+    list->current = list->tail;
+    return popCurrent(list);
+}
+
+void * popCurrent(List * list) {
+    assert(list != NULL || list->head != NULL);
+    
+    if (list->current == NULL) return NULL;
+    
+    Node * aux = list->current;
+    
+    if (aux->next != NULL) 
+        aux->next->prev = aux->prev;
+    
+    
+    if (aux->prev != NULL) 
+        aux->prev->next = aux->next;
+    
+    
+    void * data = (void *)aux->data;
+    
+    if(list->current == list->tail)
+        list->tail = list->current->prev;
+
+    if(list->current == list->head)
+        list->head = list->current->next;
+        
+    list->current = aux->prev;
+
+    free(aux);
+
+    (list->size)--;
+    return data;
+}
+
+void cleanList(List * list) {
+    assert(list != NULL);
+    
+    while (list->head != NULL) {
+        popFront(list);
     }
+
+    list->size = 0;
 }
 
-void pushFront(List* list, void* data){
-    node *a;
-    a=_createNode(data);
-    if(is_empty(list))
-        list -> last = a;
-    else
-        list -> first -> prev = a;
-
-    a -> next = list -> first;
-    list -> first = a;
-    list -> size++;
+int listSize(List *list)
+{
+  return list->size;
 }
 
-void pushBack(List* list, void* data){
-    node *a;
-    a=_createNode(data);
-    if(is_empty(list))
-        list -> first = a;
-    else
-        list -> last -> next = a;
-
-    a -> prev = list -> last;
-    list -> last = a;
-    list -> size++;
-}
-
-void pushCurrent(List* list, void* data){
-    if(!list->current) return;
-
-    node* a=_createNode(data);
-    a->next=list->current->next;
-    list->current->next=a;
-    if(a->next) a->next->prev=a;
-    a->prev=list->current;
-    if(list->current==list->last) list->last=a;
-
-    list->current=a;
-    list -> size++;
-}
-
-void popCurrent(List* list){
-    if(!list->current) return;
-
-    if (list->current->prev) list->current->prev->next=list->current->next;
-    if(list->current->next) list->current->next->prev=list->current->prev;
-    if(list->first==list->current) list->first=list->current->next;
-    if(list->last==list->current) list->last=list->current->prev;
-    free(list->current);
-    list -> size--; 
-}
-
-
-void pop(Stack* s){
+void pop(Stack* s)
+{
   popBack(s);
 }
 
-
-void* front(List* list){
-    if(is_empty(list)) {
-        return NULL;
-    }
-    list->current=list->first;
-    if(list->first)
-       return (list->first->data);
-    else return NULL;
+void* top(Stack* s)
+{
+  return lastList(s);
 }
 
-
-
-void* first(List* list){
-    return front(list);
-}
-
-void* next(List* list){
-    if(list->current)
-       list->current=list->current->next;
-    if(list->current)
-       return list->current->data;
-    else return NULL;
-}
-
-void* last(List* list){
-    if(list->last){
-        list->current=list->last;
-        return list->last->data;
-    }
-    else return NULL;
-}
-
-void* top(Stack* s){
-  return last(s);
-}
-
-void* prev(List* list){
-    if(list->current)
-       list->current=list->current->prev;
-    if(list->current)
-       return list->current->data;
-    else return NULL;
-}
-
-
-
-void push(Stack* s, void* data){
-  pushBack(s,data);
+void push(Stack* s, void* data)
+{
+  pushBack(s, data);
 }
