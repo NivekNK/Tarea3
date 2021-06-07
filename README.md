@@ -5,8 +5,8 @@
 1.Contribuir mas a las soluciones.
 2.Conectarse mas seguido.
   Aspectos Positivos:
-1.Ayudar a buscar soluciones
-2.Investigacion.
+1.Ayuda a resolver problemas.
+2.Busca problemas mas tecnicos.
 
 2)Javier Fariña Andaur
   Aspectos por mejorar:
