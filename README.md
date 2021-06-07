@@ -10,11 +10,11 @@
 
 2)Javier Fariña Andaur
   Aspectos por mejorar:
-1.- Ser mas puntual con los horarios.
-2.- Mejorar la legelibidad del codigo.
+1.- Contribuir a al organización del código.
+2.- Entrar puntualmente a las secciones.
   Aspectos positivos:
-1.- Contribuir a la toma de decisiones.
-2.- Solicitar ayuda a l@s ayudantes.
+1.- Generar un entorno optimo de trabajo.
+2.- Analizar las soluciones entregadas por el codigo.
 
 3)Kevin Rojas Villalobos
   Aspectos a mejorar:
