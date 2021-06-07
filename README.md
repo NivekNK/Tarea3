@@ -18,11 +18,11 @@
 
 3)Kevin Rojas Villalobos
   Aspectos a mejorar:
-1.- Modificar demasiado algo ya solucionado.
-2.- Demasiado trabajo en solitario.
+1.- Demasiado trabajo en solitario.
+2.- Intentar arreglar porblemas no importantes.
   Aspectos Positivos:
-1.- Buena explicando codigo.
-2.- Bueno usando Git.
+1.- Trabajador.
+2.- Terminar codigos rapido.
 
 4)Felipe Godoy
   Aspectos a mejorar:
