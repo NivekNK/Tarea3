@@ -34,7 +34,7 @@ void cambiarRuta(Map* rutas);
 void mostrarRutas(Map* rutas);
 
 // Funcion 8 de la tarea, retorna el Camino optimo
-Camino* crearRutaOptima(Map* posibles);
+Camino* crearRutaOptima(Map* posibles, Map* rutas);
 
 // Imprime un camino cualquiera indicado
 void printCamino(Camino* camino);

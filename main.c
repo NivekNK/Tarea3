@@ -96,12 +96,7 @@ void operaciones(int solicitud, Map* posiblesVec2, Map* rutas, FILE* file, int* 
             printf("Archivo no importado aun!\n");
             return;
           }
-          else if (searchMap(rutas, "RutaOptima") != NULL)
-          {
-            printf("Ruta optima ya creada!");
-            return;
-          }
-          camino = crearRutaOptima(posiblesVec2);
+          camino = crearRutaOptima(posiblesVec2, rutas);
           insertMap(rutas, getCaminoName(camino), camino);
           printCamino(camino);
           break;

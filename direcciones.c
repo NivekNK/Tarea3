@@ -543,7 +543,7 @@ Camino* DFS(Camino* initial, Map* posibles, int size)
 }
 
 // Retorna el camino optimo creado de el mapa de posibles posiciones
-Camino* crearRutaOptima(Map* posibles)
+Camino* crearRutaOptima(Map* posibles, Map* rutas)
 {
     int x, y;
     printf("Ingrese coordenada X: ");
@@ -568,6 +568,17 @@ Camino* crearRutaOptima(Map* posibles)
     pushBack(init->positions, current);
 
     Camino* camino = DFS(init, posibles, size);
+
+    char* name = "RutaOptima";
+    for (int i = 2; searchMap(rutas, camino->name) != NULL; i++)
+    {
+        char* str = (char*)malloc(sizeof(char) * 10);
+        strcpy(camino->name, name);
+        sprintf(str, "%i", i);
+        strcat(camino->name, str);
+        free(str);
+    }
+
     free(init);
     return camino;
 }
